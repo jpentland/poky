@@ -32,7 +32,7 @@ EXTRA_OECONF = "\
                 ac_cv_header_valgrind_memcheck_h=no \
 "
 
-systemd_userunitdir = "${systemd_unitdir}/user"
+systemd_userunitdir = "${systemd_unitdir}/${@bb.utils.contains('PACKAGECONFIG', 'systemd-user', 'user', 'system', d)}"
 PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
@@ -42,6 +42,10 @@ PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
 PACKAGECONFIG[ofono] = "--enable-bluez5-ofono-headset,--disable-bluez5-ofono-headset,ofono"
 PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
 PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal --with-systemduserunitdir=${systemd_userunitdir},--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
+# The systemd-user packageconfig switches from a system service to a user
+# service. Most of our configurations do not include pam and a login which
+# supports it, so it's disabled by default, contrary to upstream.
+PACKAGECONFIG[systemd-user] = ",,,"
 PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
 PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
 PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
