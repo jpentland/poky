@@ -167,3 +167,10 @@ FILES_pulseaudio-module-alsa-card += "${datadir}/pulseaudio/alsa-mixer"
 
 RDEPENDS_pulseaudio-server += "\
         ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'pulseaudio-module-console-kit', '', d)}"
+
+# If we have a system rather than user service, ensure that it's enabled
+python () {
+    packageconfig = d.getVar('PACKAGECONFIG', True).split()
+    if 'systemd' in packageconfig and 'systemd-user' not in packageconfig:
+        d.setVar('SYSTEMD_PACKAGES', '${PN}-server')
+}
