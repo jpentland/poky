@@ -1,0 +1,8 @@
+#!/bin/sh
+# This script is simply a wrapper for oe-init-build-env
+# It allows it to be executed from the parent directory
+# of poky.
+
+# Please call this using source or '.'
+
+. poky/oe-init-build-env $@
