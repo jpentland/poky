@@ -9,6 +9,8 @@ BBLAYERS ?= " \
   ##OEROOT##/meta \
   ##OEROOT##/meta-yocto \
   ##OEROOT##/meta-yocto-bsp \
+  ##OEROOT##/../meta-raspberrypi \
+  ##OEROOT##/../meta-gstreamer1.0.git \
   "
 BBLAYERS_NON_REMOVABLE ?= " \
   ##OEROOT##/meta \
